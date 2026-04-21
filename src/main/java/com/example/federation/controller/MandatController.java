@@ -15,7 +15,7 @@ public class MandatController {
     }
 
     @PostMapping
-    public Mandat create(@RequestBody Mandat m) {
-        return service.creerMandat(m);
+    public Mandat create(@RequestBody Mandat mandat) {
+        return service.create(mandat);
     }
 }
