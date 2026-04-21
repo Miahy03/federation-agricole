@@ -25,7 +25,7 @@ paths:
 
   /collectivites/{collectiviteId}/members:
     post:
-      summary: Admettre un membre (B-2 - règles renforcées)
+      summary: Admettre un membre
       parameters:
         - name: collectiviteId
           in: path
