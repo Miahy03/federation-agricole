@@ -15,7 +15,7 @@ public class Paiement {
     private LocalDate date;
 
     @ManyToOne
-    private Membre membre;
+    private Member membre;
 
     @ManyToOne
     private Compte compte;
@@ -32,8 +32,8 @@ public class Paiement {
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
 
-    public Membre getMembre() { return membre; }
-    public void setMembre(Membre membre) { this.membre = membre; }
+    public Member getMembre() { return membre; }
+    public void setMembre(Member membre) { this.membre = membre; }
 
     public Compte getCompte() { return compte; }
     public void setCompte(Compte compte) { this.compte = compte; }

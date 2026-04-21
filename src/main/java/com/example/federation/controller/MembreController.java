@@ -1,6 +1,6 @@
 package com.example.federation.controller;
 
-import com.example.federation.entity.Membre;
+import com.example.federation.entity.Member;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 public class MembreController {
 
     @PostMapping
-    public String create(@RequestBody Membre m) {
+    public String create(@RequestBody Member m) {
         return "Membre ajouté : " + m.getNom();
     }
 

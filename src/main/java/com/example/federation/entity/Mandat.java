@@ -16,20 +16,20 @@ public class Mandat {
     private LocalDate dateFin;
 
     @ManyToOne
-    private Membre membre;
+    private Member membre;
 
     @ManyToOne
-    private Collectivite collectivite;
+    private Collectivity collectivite;
 
     // getters / setters
     public String getPoste() { return poste; }
     public void setPoste(String poste) { this.poste = poste; }
 
-    public Membre getMembre() { return membre; }
-    public void setMembre(Membre membre) { this.membre = membre; }
+    public Member getMembre() { return membre; }
+    public void setMembre(Member membre) { this.membre = membre; }
 
-    public Collectivite getCollectivite() { return collectivite; }
-    public void setCollectivite(Collectivite collectivite) { this.collectivite = collectivite; }
+    public Collectivity getCollectivite() { return collectivite; }
+    public void setCollectivite(Collectivity collectivite) { this.collectivite = collectivite; }
 
     public LocalDate getDateDebut() { return dateDebut; }
     public void setDateDebut(LocalDate dateDebut) { this.dateDebut = dateDebut; }

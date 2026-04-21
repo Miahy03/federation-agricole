@@ -1,4 +1,4 @@
 package com.example.federation.repository;
-import com.example.federation.entity.Collectivite;
+import com.example.federation.entity.Collectivity;
 import org.springframework.data.jpa.repository.JpaRepository;
-public interface CollectiviteRepository extends JpaRepository<Collectivite,Long>{}
+public interface CollectiviteRepository extends JpaRepository<Collectivity,Long>{}
