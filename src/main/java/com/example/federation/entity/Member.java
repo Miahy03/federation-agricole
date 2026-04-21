@@ -1,11 +1,8 @@
 package com.example.federation.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
 
@@ -15,18 +12,15 @@ import java.time.LocalDate;
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
     private String lastName;
-    private LocalDate birthDate;
-    private String gender;
 
-    private String address;
+    private String gender;
     private String job;
     private String phone;
-    private String email;
 
     private LocalDate joinDate;
 

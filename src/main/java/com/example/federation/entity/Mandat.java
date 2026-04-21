@@ -12,17 +12,9 @@ import java.time.LocalDate;
 public class Mandat {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String poste; // PRESIDENT, TREASURER, SECRETARY
 
     private LocalDate dateDebut;
     private LocalDate dateFin;
-
-    @ManyToOne
-    private Member member;
-
-    @ManyToOne
-    private Collectivity collectivity;
 }

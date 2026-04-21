@@ -1,10 +1,8 @@
 package com.example.federation.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
 
@@ -14,11 +12,12 @@ import java.time.LocalDate;
 public class Collectivity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String city;
     private String specialty;
+
     private LocalDate creationDate;
 }
