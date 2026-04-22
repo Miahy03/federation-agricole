@@ -16,4 +16,12 @@ public class Payment {
     private Long id;
 
     private LocalDate date;
+    private double amount;
+    private String method;
+
+    @ManyToOne
+    private Collectivity collectivity;
+
+    @ManyToOne
+    private Member member;
 }

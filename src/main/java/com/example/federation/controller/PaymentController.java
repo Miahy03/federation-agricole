@@ -15,7 +15,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public Payment create(@RequestBody Payment payment) {
-        return service.pay(payment);
+    public Payment pay(@RequestBody Payment p) {
+        return service.pay(p);
     }
 }

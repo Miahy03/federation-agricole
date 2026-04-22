@@ -2,10 +2,7 @@ package com.example.federation.controller;
 
 import com.example.federation.entity.Collectivity;
 import com.example.federation.service.CollectivityService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/collectivities")

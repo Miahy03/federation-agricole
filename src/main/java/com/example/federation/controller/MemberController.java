@@ -16,7 +16,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public Member create(@RequestBody MemberRequest request) {
-        return service.create(request);
+    public Member create(@RequestBody MemberRequest r) {
+        return service.create(r);
     }
 }

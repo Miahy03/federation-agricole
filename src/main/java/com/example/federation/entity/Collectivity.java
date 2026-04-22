@@ -24,7 +24,6 @@ public class Collectivity {
 
     private String speciality;
 
-    @Column(name = "creation_datetime")
     private LocalDate creationDate;
 
     @ManyToOne
