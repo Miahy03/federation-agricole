@@ -1,0 +1,214 @@
+openapi: 3.0.3
+info:
+  description: "API de gestion des membres, collectivités et sponsors"
+  title: Federation API
+  version: 0.0.2
+servers:
+- url: http://localhost:8080
+paths:
+  /members:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+          description: Membre créé
+      summary: Créer un membre avec sponsors
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /collectivities:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Collectivity'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collectivity'
+          description: Collectivité créée
+      summary: Créer une collectivité
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /collectivities/{id}/assign:
+    put:
+      description: Fonction J - assignation du numéro et du nom unique
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectivityAssignRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collectivity'
+          description: Collectivité mise à jour
+      summary: Attribution du numéro et du nom unique à une collectivité
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    MemberRequest:
+      example:
+        firstName: firstName
+        lastName: lastName
+        collectivityId: 0
+        admissionDate: 2000-01-23
+        sponsorIds:
+        - 6
+        - 6
+        address: address
+        gender: MALE
+        phone: phone
+        job: job
+        birthDate: 2000-01-23
+        email: email
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          format: date
+          type: string
+        admissionDate:
+          format: date
+          type: string
+        gender:
+          enum:
+          - MALE
+          - FEMALE
+          type: string
+        address:
+          type: string
+        job:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        collectivityId:
+          type: integer
+        sponsorIds:
+          items:
+            type: integer
+          type: array
+      required:
+      - birthDate
+      - collectivityId
+      - email
+      - firstName
+      - gender
+      - lastName
+      - phone
+      - sponsorIds
+      type: object
+    Member:
+      example:
+        firstName: firstName
+        lastName: lastName
+        admissionDate: 2000-01-23
+        address: address
+        gender: gender
+        phone: phone
+        id: 0
+        job: job
+        birthDate: 2000-01-23
+        email: email
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          format: date
+          type: string
+        admissionDate:
+          format: date
+          type: string
+        gender:
+          type: string
+        address:
+          type: string
+        job:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+      type: object
+    Collectivity:
+      example:
+        number: number
+        speciality: speciality
+        city:
+          id: 6
+        name: name
+        id: 0
+        creationDate: 2000-01-23
+      properties:
+        id:
+          type: integer
+        number:
+          type: string
+        name:
+          type: string
+        speciality:
+          type: string
+        creationDate:
+          format: date
+          type: string
+        city:
+          $ref: '#/components/schemas/Collectivity_city'
+      type: object
+    CollectivityAssignRequest:
+      example:
+        number: COL001
+        name: Collectif Riz
+      properties:
+        number:
+          example: COL001
+          type: string
+        name:
+          example: Collectif Riz
+          type: string
+      required:
+      - name
+      - number
+      type: object
+    Collectivity_city:
+      example:
+        id: 6
+      properties:
+        id:
+          type: integer
+      type: object
+
