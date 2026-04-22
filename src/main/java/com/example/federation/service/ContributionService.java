@@ -1,8 +1,9 @@
 package com.example.federation.service;
 
 import com.example.federation.entity.*;
+import com.example.federation.repository.*;
 import com.example.federation.exceptions.BadRequestException;
-import com.example.federation.repository.ContributionRepository;
+import com.example.federation.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -10,25 +11,37 @@ import java.time.LocalDate;
 @Service
 public class ContributionService {
 
-    private final ContributionRepository repo;
+    private final ContributionRepository contributionRepo;
+    private final MemberRepository memberRepo;
+    private final CollectivityRepository collectivityRepo;
 
-    public ContributionService(ContributionRepository repo) {
-        this.repo = repo;
+    public ContributionService(ContributionRepository contributionRepo,
+                               MemberRepository memberRepo,
+                               CollectivityRepository collectivityRepo) {
+        this.contributionRepo = contributionRepo;
+        this.memberRepo = memberRepo;
+        this.collectivityRepo = collectivityRepo;
     }
 
-    public Contribution create(Member m, Collectivity c, double amount) {
+    public Contribution create(Long memberId, Long collectivityId, double amount) {
 
         if (amount <= 0) {
-            throw new BadRequestException("Invalid contribution amount");
+            throw new BadRequestException("Amount must be greater than 0");
         }
 
-        Contribution ct = new Contribution();
-        ct.setMember(m);
-        ct.setCollectivity(c);
-        ct.setAmount(amount);
-        ct.setDueDate(LocalDate.now().plusMonths(1));
-        ct.setStatus(PaymentStatus.UNPAID);
+        Member member = memberRepo.findById(memberId)
+                .orElseThrow(() -> new NotFoundException("Member not found"));
 
-        return repo.save(ct);
+        Collectivity collectivity = collectivityRepo.findById(collectivityId)
+                .orElseThrow(() -> new NotFoundException("Collectivity not found"));
+
+        Contribution c = new Contribution();
+        c.setMember(member);
+        c.setCollectivity(collectivity);
+        c.setAmount(amount);
+        c.setDueDate(LocalDate.now().plusMonths(1));
+        c.setStatus(PaymentStatus.UNPAID);
+
+        return contributionRepo.save(c);
     }
 }

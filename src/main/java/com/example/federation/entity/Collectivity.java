@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "collectivity")
 @Getter
 @Setter
 public class Collectivity {
@@ -27,6 +26,5 @@ public class Collectivity {
     private LocalDate creationDate;
 
     @ManyToOne
-    @JoinColumn(name = "id_city")
     private City city;
 }

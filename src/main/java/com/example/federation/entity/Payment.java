@@ -20,8 +20,8 @@ public class Payment {
     private String method;
 
     @ManyToOne
-    private Collectivity collectivity;
+    private Member member;
 
     @ManyToOne
-    private Member member;
+    private Collectivity collectivity;
 }
