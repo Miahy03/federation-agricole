@@ -1,16 +1,32 @@
 openapi: 3.0.3
 info:
-  title: Fédération des Collectivités Agricoles
-  version: 2.0.0
-  description: API complète
+  title: Federation API
+  version: 0.0.2
+  description: API de gestion des membres, collectivités et sponsors
 
 servers:
   - url: http://localhost:8080
 
 paths:
 
+  /members:
+    post:
+      summary: Créer un membre avec sponsors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberRequest'
+      responses:
+        "200":
+          description: Membre créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
 
-  /collectivites:
+  /collectivities:
     post:
       summary: Créer une collectivité
       requestBody:
@@ -18,16 +34,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Collectivite'
+              $ref: '#/components/schemas/Collectivity'
       responses:
-        '201':
+        "200":
           description: Collectivité créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collectivity'
 
-  /collectivites/{collectiviteId}/members:
-    post:
-      summary: Admettre un membre
+  /collectivities/{id}/assign:
+    put:
+      summary: Attribution du numéro et du nom unique à une collectivité
+      description: Fonction J - assignation du numéro et du nom unique
       parameters:
-        - name: collectiviteId
+        - name: id
           in: path
           required: true
           schema:
@@ -37,183 +58,39 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewMember'
+              $ref: '#/components/schemas/CollectivityAssignRequest'
       responses:
-        '201':
-          description: Membre admis
-        '400':
-          description: Conditions non respectées
-
-  /collectivites/{collectiviteId}/cotisations:
-    post:
-      summary: Ajouter une cotisation
-      parameters:
-        - name: collectiviteId
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Cotisation'
-      responses:
-        '201':
-          description: Cotisation enregistrée
-
-
-  /collectivites/{collectiviteId}/comptes:
-    post:
-      summary: Ajouter un compte
-      parameters:
-        - name: collectiviteId
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Compte'
-      responses:
-        '201':
-          description: Compte ajouté
-
-  /collectivites/{collectiviteId}/activites:
-    post:
-      summary: Créer une activité
-      parameters:
-        - name: collectiviteId
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Activite'
-      responses:
-        '201':
-          description: Activité créée
-
-  /activites/{activiteId}/presence:
-    post:
-      summary: Enregistrer présence
-      parameters:
-        - name: activiteId
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Presence'
-      responses:
-        '200':
-          description: Présence enregistrée
-
-  /collectivites/{collectiviteId}/statistiques:
-    get:
-      summary: Statistiques d’une collectivité
-      parameters:
-        - name: collectiviteId
-          in: path
-          required: true
-          schema:
-            type: integer
-        - name: startDate
-          in: query
-          schema:
-            type: string
-            format: date
-        - name: endDate
-          in: query
-          schema:
-            type: string
-            format: date
-      responses:
-        '200':
-          description: Statistiques collectivité
+        "200":
+          description: Collectivité mise à jour
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StatCollectivite'
-
-  /federation/statistics:
-    get:
-      summary: Statistiques globales de la fédération
-      parameters:
-        - name: startDate
-          in: query
-          schema:
-            type: string
-            format: date
-        - name: endDate
-          in: query
-          schema:
-            type: string
-            format: date
-      responses:
-        '200':
-          description: Statistiques fédération
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatFederation'
+                $ref: '#/components/schemas/Collectivity'
 
 components:
 
   schemas:
 
-    Collectivite:
-      type: object
-      required:
-        - name
-        - ville
-        - specialite
-      properties:
-        name:
-          type: string
-        ville:
-          type: string
-        specialite:
-          type: string
-
-    Sponsor:
-      type: object
-      required:
-        - memberId
-        - collectiviteId
-        - relation
-      properties:
-        memberId:
-          type: integer
-        collectiviteId:
-          type: integer
-        relation:
-          type: string
-          example: ami
-
-    NewMember:
+    MemberRequest:
       type: object
       required:
         - firstName
         - lastName
         - birthDate
-        - sponsors
-        - adhesionFee
-        - annualContribution
+        - gender
+        - phone
+        - email
+        - collectivityId
+        - sponsorIds
       properties:
         firstName:
           type: string
         lastName:
           type: string
         birthDate:
+          type: string
+          format: date
+        admissionDate:
           type: string
           format: date
         gender:
@@ -227,105 +104,68 @@ components:
           type: string
         email:
           type: string
-
-        sponsors:
+        collectivityId:
+          type: integer
+        sponsorIds:
           type: array
-          minItems: 2
           items:
-            $ref: '#/components/schemas/Sponsor'
+            type: integer
 
-        adhesionFee:
-          type: number
-          example: 50000
-
-        annualContribution:
-          type: number
-          example: 200000
-
-    Cotisation:
+    Member:
       type: object
       properties:
-        montant:
-          type: number
-        date:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
           type: string
           format: date
-        modePaiement:
-          type: string
-          enum: [ESPECE, VIREMENT, MOBILE_MONEY]
-
-    Compte:
-      type: object
-      properties:
-        type:
-          type: string
-          enum: [CAISSE, BANCAIRE, MOBILE_MONEY]
-        titulaire:
-          type: string
-        banque:
-          type: string
-        numeroCompte:
-          type: string
-        telephone:
-          type: string
-        solde:
-          type: number
-
-    Activite:
-      type: object
-      properties:
-        nom:
-          type: string
-        date:
+        admissionDate:
           type: string
           format: date
-        obligatoire:
-          type: boolean
+        gender:
+          type: string
+        address:
+          type: string
+        job:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
 
-    Presence:
+    Collectivity:
       type: object
       properties:
-        memberId:
+        id:
           type: integer
-        present:
-          type: boolean
-        excuse:
-          type: boolean
+        number:
+          type: string
+        name:
+          type: string
+        speciality:
+          type: string
+        creationDate:
+          type: string
+          format: date
+        city:
+          type: object
+          properties:
+            id:
+              type: integer
 
-    StatCollectivite:
+    CollectivityAssignRequest:
       type: object
+      required:
+        - number
+        - name
       properties:
-        attendanceRate:
-          type: number
-        totalMembers:
-          type: integer
-        members:
-          type: array
-          items:
-            type: object
-            properties:
-              memberId:
-                type: integer
-              attendanceRate:
-                type: number
-              totalPaid:
-                type: number
-              unpaidAmount:
-                type: number
-
-    StatFederation:
-      type: object
-      properties:
-        collectivites:
-          type: array
-          items:
-            type: object
-            properties:
-              collectiviteId:
-                type: integer
-              attendanceRate:
-                type: number
-              upToDateMembersPercentage:
-                type: number
-              newMembersCount:
-                type: integer
+        number:
+          type: string
+          example: "COL001"
+        name:
+          type: string
+          example: "Collectif Riz"
