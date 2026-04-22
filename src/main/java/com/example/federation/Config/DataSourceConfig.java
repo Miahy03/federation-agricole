@@ -17,10 +17,9 @@ public class DataSourceConfig {
 
         DriverManagerDataSource ds = new DriverManagerDataSource();
 
-        ds.setDriverClassName("org.h2.Driver");
-
+        ds.setDriverClassName("org.postgresql.Driver");
         ds.setUrl(dotenv.get("DB_URL"));
-        ds.setUsername(dotenv.get("DB_USER"));
+        ds.setUsername(dotenv.get("DB_USERNAME"));
         ds.setPassword(dotenv.get("DB_PASSWORD"));
 
         return ds;

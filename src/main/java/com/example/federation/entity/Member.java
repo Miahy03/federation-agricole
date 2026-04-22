@@ -26,4 +26,12 @@ public class Member {
 
     @ManyToOne
     private Collectivity collectivity;
+    private String email;
+    private String address;
+
+    @ManyToMany
+    private java.util.List<Member> sponsors;
+
+    @ElementCollection
+    private java.util.List<String> sponsorRelations;
 }

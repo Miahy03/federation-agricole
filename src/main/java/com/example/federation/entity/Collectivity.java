@@ -14,7 +14,7 @@ public class Collectivity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String number;
     private String name;
     private String city;
     private String specialty;

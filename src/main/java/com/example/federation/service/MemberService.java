@@ -19,7 +19,7 @@ public class MemberService {
 
     public Member create(Member m, List<Sponsorship> sponsors) {
 
-        if (sponsors.size() < 2) {
+        if (sponsors == null || sponsors.size() < 2) {
             throw new RuntimeException("At least 2 sponsors required");
         }
 
