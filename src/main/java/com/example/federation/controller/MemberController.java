@@ -15,8 +15,8 @@ public class MemberController {
         this.service = service;
     }
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping
     public Member create(@RequestBody MemberRequest request) {
-        return service.create(request.getMember(), request.getSponsors());
+        return service.create(request);
     }
 }

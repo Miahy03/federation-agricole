@@ -15,12 +15,10 @@ public class Sponsorship {
 
     private String relationship;
 
-    // candidat (le membre créé)
     @ManyToOne
     @JoinColumn(name = "id_candidate")
     private Member candidate;
 
-    // sponsor
     @ManyToOne
     @JoinColumn(name = "id_sponsor")
     private Member sponsor;
