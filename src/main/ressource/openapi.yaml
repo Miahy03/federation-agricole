@@ -1,4 +1,5 @@
 openapi: 3.0.3
+
 info:
   title: Federation API
   version: 0.0.2
@@ -12,6 +13,7 @@ paths:
   /members:
     post:
       summary: Créer un membre avec sponsors
+      operationId: createMember
       requestBody:
         required: true
         content:
@@ -29,6 +31,7 @@ paths:
   /collectivities:
     post:
       summary: Créer une collectivité
+      operationId: createCollectivity
       requestBody:
         required: true
         content:
@@ -46,7 +49,7 @@ paths:
   /collectivities/{id}/assign:
     put:
       summary: Attribution du numéro et du nom unique à une collectivité
-      description: Fonction J - assignation du numéro et du nom unique
+      operationId: assignCollectivity
       parameters:
         - name: id
           in: path
@@ -81,7 +84,6 @@ components:
         - phone
         - email
         - collectivityId
-        - sponsorIds
       properties:
         firstName:
           type: string
@@ -139,6 +141,10 @@ components:
 
     Collectivity:
       type: object
+      required:
+        - name
+        - speciality
+        - city
       properties:
         id:
           type: integer
@@ -152,10 +158,15 @@ components:
           type: string
           format: date
         city:
-          type: object
-          properties:
-            id:
-              type: integer
+          $ref: '#/components/schemas/City'
+
+    City:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
 
     CollectivityAssignRequest:
       type: object

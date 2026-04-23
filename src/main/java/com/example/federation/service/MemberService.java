@@ -24,11 +24,23 @@ public class MemberService {
         }
 
         Member m = new Member();
+
         m.setFirstName(r.getFirstName());
         m.setLastName(r.getLastName());
-        m.setBirthDate(r.getBirthDate());
+
+        if (r.getBirthDate() != null) {
+            m.setBirthDate(LocalDate.parse(r.getBirthDate()));
+        }
+
+        if (r.getAdmissionDate() != null) {
+            m.setJoinDate(LocalDate.parse(r.getAdmissionDate()));
+        }
+
         m.setGender(r.getGender());
-        m.setJoinDate(LocalDate.now());
+        m.setAddress(r.getAddress());
+        m.setJob(r.getJob());
+        m.setPhone(r.getPhone());
+        m.setEmail(r.getEmail());
 
         return repo.save(m);
     }

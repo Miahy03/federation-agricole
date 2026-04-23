@@ -1,6 +1,9 @@
+// commit: fix(account-service): enforce single cash account per collectivity
+
 package com.example.federation.service;
 
 import com.example.federation.entity.Account;
+import com.example.federation.exceptions.BadRequestException;
 import com.example.federation.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 

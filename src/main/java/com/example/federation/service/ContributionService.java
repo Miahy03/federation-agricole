@@ -35,13 +35,13 @@ public class ContributionService {
         Collectivity collectivity = collectivityRepo.findById(collectivityId)
                 .orElseThrow(() -> new NotFoundException("Collectivity not found"));
 
-        Contribution c = new Contribution();
-        c.setMember(member);
-        c.setCollectivity(collectivity);
-        c.setAmount(amount);
-        c.setDueDate(LocalDate.now().plusMonths(1));
-        c.setStatus(PaymentStatus.UNPAID);
+        Contribution contribution = new Contribution();
+        contribution.setMember(member);
+        contribution.setCollectivity(collectivity);
+        contribution.setAmount(amount);
+        contribution.setDueDate(LocalDate.now().plusMonths(1));
+        contribution.setStatus(PaymentStatus.UNPAID);
 
-        return contributionRepo.save(c);
+        return contributionRepo.save(contribution);
     }
 }

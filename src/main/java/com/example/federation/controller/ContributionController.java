@@ -1,5 +1,6 @@
 package com.example.federation.controller;
 
+import com.example.federation.dto.ContributionRequest;
 import com.example.federation.entity.Contribution;
 import com.example.federation.service.ContributionService;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,12 @@ public class ContributionController {
         this.service = service;
     }
 
-    @PostMapping("/{memberId}/{collectivityId}")
-    public Contribution create(@PathVariable Long memberId,
-                               @PathVariable Long collectivityId,
-                               @RequestBody double amount) {
-        return service.create(memberId, collectivityId, amount);
+    @PostMapping
+    public Contribution create(@RequestBody ContributionRequest request) {
+        return service.create(
+                request.getMemberId(),
+                request.getCollectivityId(),
+                request.getAmount()
+        );
     }
 }

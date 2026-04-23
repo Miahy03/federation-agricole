@@ -4,8 +4,10 @@ import com.example.federation.entity.Payment;
 import com.example.federation.service.PaymentService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/members")
 public class PaymentController {
 
     private final PaymentService service;
@@ -14,8 +16,11 @@ public class PaymentController {
         this.service = service;
     }
 
-    @PostMapping
-    public Payment pay(@RequestBody Payment p) {
-        return service.pay(p);
+    @PostMapping("/{id}/payments")
+    public List<Payment> pay(
+            @PathVariable Long id,
+            @RequestBody List<Payment> payments
+    ) {
+        return service.pay(id, payments);
     }
 }

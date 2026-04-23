@@ -16,4 +16,7 @@ public class Account {
     private String type;
     private String name;
     private double balance;
+
+    @ManyToOne
+    private Collectivity collectivity;
 }

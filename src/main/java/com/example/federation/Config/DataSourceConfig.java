@@ -1,4 +1,4 @@
-package com.example.federation.config;
+package com.example.federation.Config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.context.annotation.Bean;
