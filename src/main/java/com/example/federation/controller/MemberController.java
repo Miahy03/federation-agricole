@@ -1,22 +1,22 @@
 package com.example.federation.controller;
 
-import com.example.federation.dto.AccountResponse;
+import com.example.federation.dto.AdhesionRequest;
 import com.example.federation.entity.Member;
 import com.example.federation.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/members")
 public class MemberController {
 
-    private final MemberService service;
+    private final MemberService memberService;
 
-    public MemberController(MemberService service) {
-        this.service = service;
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     @PostMapping
-    public Member create(@RequestBody AccountResponse r) {
-        return service.create(r);
+    public Member createMember(@RequestBody AdhesionRequest request) {
+        return memberService.createMember(request);
     }
 }

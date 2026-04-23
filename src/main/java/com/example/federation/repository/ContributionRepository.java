@@ -2,5 +2,9 @@ package com.example.federation.repository;
 
 import com.example.federation.entity.Contribution;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ContributionRepository extends JpaRepository<Contribution, Long> {}
+@Repository
+public interface ContributionRepository extends JpaRepository<Contribution, String> {
+    // Changement : Long → String
+}

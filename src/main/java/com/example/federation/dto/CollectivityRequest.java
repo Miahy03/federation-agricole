@@ -1,17 +1,19 @@
 package com.example.federation.dto;
 
-public class CollectivityResponse {
+import java.util.List;
 
-    private String id;
+public class CollectivityRequest {
+
     private String localite;
     private String specialite;
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    private List<MemberRequest> membres;
 
     public String getLocalite() { return localite; }
     public void setLocalite(String localite) { this.localite = localite; }
 
     public String getSpecialite() { return specialite; }
     public void setSpecialite(String specialite) { this.specialite = specialite; }
+
+    public List<MemberRequest> getMembres() { return membres; }
+    public void setMembres(List<MemberRequest> membres) { this.membres = membres; }
 }

@@ -1,44 +1,77 @@
 package com.example.federation.service;
 
-import com.example.federation.entity.Account;
-import com.example.federation.entity.Collectivity;
-import com.example.federation.exceptions.NotFoundException;
-import com.example.federation.repository.AccountRepository;
+import com.example.federation.dto.*;
+import com.example.federation.entity.*;
 import com.example.federation.repository.CollectivityRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CollectivityService {
 
     private final CollectivityRepository repo;
-    private final AccountRepository accountRepo;
 
-    public CollectivityService(CollectivityRepository repo,
-                               AccountRepository accountRepo) {
+    public CollectivityService(CollectivityRepository repo) {
         this.repo = repo;
-        this.accountRepo = accountRepo;
     }
 
-    public Collectivity create(Collectivity c) {
-        c.setCreationDate(LocalDate.now());
-        return repo.save(c);
+    public CollectivityResponse create(CollectivityRequest dto) {
+
+        Collectivity c = new Collectivity();
+        c.setId(UUID.randomUUID().toString());
+        c.setLocalite(dto.getLocalite());
+        c.setSpecialite(dto.getSpecialite());
+
+        List<Member> members = new ArrayList<>();
+
+        if (dto.getMembres() != null) {
+            for (MemberRequest m : dto.getMembres()) {
+
+                Member member = new Member();
+                member.setId(UUID.randomUUID().toString());
+
+                member.setNom(m.getNom());
+                member.setPrenom(m.getPrenom());
+                member.setDateNaissance(m.getDateNaissance());
+                member.setDateAdhesion(m.getDateAdhesion());
+                member.setGenre(m.getGenre());
+                member.setAdresse(m.getAdresse());
+                member.setMetier(m.getMetier());
+                member.setTelephone(m.getTelephone());
+                member.setEmail(m.getEmail());
+                member.setPoste(m.getPoste());
+
+                member.setCollectivity(c);
+
+                members.add(member);
+            }
+        }
+
+        c.setMembres(members);
+
+        Collectivity saved = repo.save(c);
+
+        CollectivityResponse res = new CollectivityResponse();
+        res.setId(saved.getId());
+        res.setLocalite(saved.getLocalite());
+        res.setSpecialite(saved.getSpecialite());
+
+        return res;
     }
 
-    public Collectivity getById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new NotFoundException("Collectivity not found"));
-    }
+    public CollectivityResponse getById(String id) {
 
-    public List<Account> getAccounts(Long id, LocalDate at) {
-        Collectivity c = getById(id);
+        Collectivity c = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Collectivity not found"));
 
-        return accountRepo.findAll()
-                .stream()
-                .filter(a -> a.getCollectivity() != null
-                        && a.getCollectivity().getId().equals(c.getId()))
-                .toList();
+        CollectivityResponse res = new CollectivityResponse();
+        res.setId(c.getId());
+        res.setLocalite(c.getLocalite());
+        res.setSpecialite(c.getSpecialite());
+
+        return res;
     }
 }

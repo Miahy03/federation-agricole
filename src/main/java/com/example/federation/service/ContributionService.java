@@ -23,17 +23,17 @@ public class ContributionService {
         this.collectivityRepo = collectivityRepo;
     }
 
-    public Contribution create(Long memberId, Long collectivityId, double amount) {
+    public Contribution create(String memberId, String collectivityId, double amount) {
 
         if (amount <= 0) {
             throw new BadRequestException("Amount must be greater than 0");
         }
 
         Member member = memberRepo.findById(memberId)
-                .orElseThrow(() -> new NotFoundException("Member not found"));
+                .orElseThrow(() -> new NotFoundException("Member not found with id: " + memberId));
 
         Collectivity collectivity = collectivityRepo.findById(collectivityId)
-                .orElseThrow(() -> new NotFoundException("Collectivity not found"));
+                .orElseThrow(() -> new NotFoundException("Collectivity not found with id: " + collectivityId));
 
         Contribution contribution = new Contribution();
         contribution.setMember(member);

@@ -1,45 +1,63 @@
 package com.example.federation.service;
 
-import com.example.federation.entity.Member;
-import com.example.federation.entity.Sponsorship;
-import com.example.federation.repository.MemberRepository;
+import com.example.federation.entity.*;
+import com.example.federation.repository.*;
+import com.example.federation.dto.SponsorshipRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class MandatService {
 
-    private final MemberRepository repo;
+    private final MemberRepository memberRepo;
+    private final SponsorshipRepository sponsorshipRepo;
+    private final CollectivityRepository collectivityRepo;
 
-    public MandatService(MemberRepository repo) {
-        this.repo = repo;
+    public MandatService(MemberRepository memberRepo,
+                         SponsorshipRepository sponsorshipRepo,
+                         CollectivityRepository collectivityRepo) {
+        this.memberRepo = memberRepo;
+        this.sponsorshipRepo = sponsorshipRepo;
+        this.collectivityRepo = collectivityRepo;
     }
 
-    public Member create(Member m, List<Sponsorship> sponsors) {
+    @Transactional
+    public void validateSponsors(String memberId, List<SponsorshipRequest> sponsors, String collectivityId) {
 
-        if (sponsors == null || sponsors.size() < 2) {
-            throw new RuntimeException("At least 2 sponsors required");
+        Member newMember = memberRepo.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+
+        for (SponsorshipRequest dto : sponsors) {
+            Member sponsor = memberRepo.findById(dto.getSponsorId())
+                    .orElseThrow(() -> new RuntimeException("Sponsor not found: " + dto.getSponsorId()));
+
+            if (!"CONFIRME".equals(sponsor.getPoste())) {
+                throw new RuntimeException("Sponsor must be a confirmed member");
+            }
+
+            Sponsorship s = new Sponsorship();
+            s.setSponsor(sponsor);
+            s.setMember(newMember);
+            s.setRelation(dto.getRelationship());
+            s.setCreatedAt(LocalDateTime.now());
+
+            // Correction : setCollectivity existe maintenant dans Sponsorship
+            Collectivity collectivity = collectivityRepo.findById(collectivityId)
+                    .orElseThrow(() -> new RuntimeException("Collectivity not found"));
+            s.setCollectivity(collectivity);
+
+            sponsorshipRepo.save(s);
         }
+    }
 
-        if (m.getCollectivity() == null) {
-            throw new RuntimeException("Collectivity required");
-        }
-
-        long sameCollectivity = sponsors.stream()
-                .filter(s -> s.getSponsor().getCollectivity().getId()
-                        .equals(m.getCollectivity().getId()))
-                .count();
-
-        long others = sponsors.size() - sameCollectivity;
-
-        if (sameCollectivity < others) {
-            throw new RuntimeException("Invalid sponsors distribution");
-        }
-
-        m.setJoinDate(LocalDate.now());
-
-        return repo.save(m);
+    @Transactional
+    public void setJoinDate(Member member, LocalDate date) {
+        // Correction : utiliser setDateAdhesion() au lieu de setJoinDate()
+        member.setDateAdhesion(date);
+        memberRepo.save(member);
     }
 }

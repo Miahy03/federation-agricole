@@ -1,12 +1,8 @@
 package com.example.federation.controller;
 
-import com.example.federation.entity.Account;
-import com.example.federation.entity.Collectivity;
+import com.example.federation.dto.*;
 import com.example.federation.service.CollectivityService;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/collectivities")
@@ -19,21 +15,12 @@ public class CollectivityController {
     }
 
     @PostMapping
-    public Collectivity create(@RequestBody Collectivity c) {
-        return service.create(c);
+    public CollectivityResponse create(@RequestBody CollectivityRequest dto) {
+        return service.create(dto);
     }
 
     @GetMapping("/{id}")
-    public Collectivity getById(@PathVariable Long id) {
+    public CollectivityResponse getById(@PathVariable String id) {
         return service.getById(id);
-    }
-
-    @GetMapping("/{id}/financialAccounts")
-    public List<Account> getAccounts(
-            @PathVariable Long id,
-            @RequestParam(required = false) String at
-    ) {
-        LocalDate date = (at != null) ? LocalDate.parse(at) : null;
-        return service.getAccounts(id, date);
     }
 }

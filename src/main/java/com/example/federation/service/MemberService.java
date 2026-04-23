@@ -1,9 +1,8 @@
 package com.example.federation.service;
 
-import com.example.federation.dto.AccountResponse;
 import com.example.federation.entity.Member;
-import com.example.federation.exceptions.BadRequestException;
 import com.example.federation.repository.MemberRepository;
+import com.example.federation.dto.AdhesionRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -11,37 +10,25 @@ import java.time.LocalDate;
 @Service
 public class MemberService {
 
-    private final MemberRepository repo;
+    private final MemberRepository memberRepo;
 
-    public MemberService(MemberRepository repo) {
-        this.repo = repo;
+    public MemberService(MemberRepository memberRepo) {
+        this.memberRepo = memberRepo;
     }
 
-    public Member create(AccountResponse r) {
-
-        if (r.getFirstName() == null || r.getLastName() == null) {
-            throw new BadRequestException("Name required");
-        }
-
+    public Member createMember(AdhesionRequest request) {
         Member m = new Member();
+        m.setNom(request.getNom());
+        m.setPrenom(request.getPrenom());
+        m.setDateNaissance(request.getDateNaissance());
+        m.setDateAdhesion(LocalDate.now());
+        m.setGenre(request.getGenre());
+        m.setAdresse(request.getAdresse());
+        m.setMetier(request.getMetier());
+        m.setTelephone(request.getTelephone());
+        m.setEmail(request.getEmail());
+        m.setPoste(request.getPoste());
 
-        m.setFirstName(r.getFirstName());
-        m.setLastName(r.getLastName());
-
-        if (r.getBirthDate() != null) {
-            m.setBirthDate(LocalDate.parse(r.getBirthDate()));
-        }
-
-        if (r.getAdmissionDate() != null) {
-            m.setJoinDate(LocalDate.parse(r.getAdmissionDate()));
-        }
-
-        m.setGender(r.getGender());
-        m.setAddress(r.getAddress());
-        m.setJob(r.getJob());
-        m.setPhone(r.getPhone());
-        m.setEmail(r.getEmail());
-
-        return repo.save(m);
+        return memberRepo.save(m);
     }
 }

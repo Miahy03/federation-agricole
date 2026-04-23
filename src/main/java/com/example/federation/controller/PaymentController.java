@@ -4,23 +4,28 @@ import com.example.federation.entity.Payment;
 import com.example.federation.service.PaymentService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/payments")
 public class PaymentController {
 
-    private final PaymentService service;
+    private final PaymentService paymentService;
 
-    public PaymentController(PaymentService service) {
-        this.service = service;
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 
-    @PostMapping("/{id}/payments")
+    @PostMapping("/{memberId}")
     public List<Payment> pay(
-            @PathVariable Long id,
-            @RequestBody List<Payment> payments
-    ) {
-        return service.pay(id, payments);
+            @PathVariable String memberId,
+            @RequestBody List<Payment> payments) {
+
+        List<Payment> savedPayments = new ArrayList<>();
+        for (Payment p : payments) {
+            savedPayments.add(paymentService.createPayment(memberId, p.getAmount()));
+        }
+        return savedPayments;
     }
 }

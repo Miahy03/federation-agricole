@@ -1,19 +1,12 @@
-package com.example.federation.entity;
+package com.example.federation.dto;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "members")
-public class Member {
-
-    @Id
-    private String id;
-
+public class AdhesionRequest {
     private String nom;
     private String prenom;
     private LocalDate dateNaissance;
-    private LocalDate dateAdhesion;
+    private LocalDate dateAdhesion;  // ← Ajouter ce champ
     private String genre;
     private String adresse;
     private String metier;
@@ -21,14 +14,7 @@ public class Member {
     private String email;
     private String poste;
 
-    @ManyToOne
-    @JoinColumn(name = "collectivity_id")
-    private Collectivity collectivity;
-
     // Getters et Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
     public String getNom() { return nom; }
     public void setNom(String nom) { this.nom = nom; }
 
@@ -38,8 +24,8 @@ public class Member {
     public LocalDate getDateNaissance() { return dateNaissance; }
     public void setDateNaissance(LocalDate dateNaissance) { this.dateNaissance = dateNaissance; }
 
-    public LocalDate getDateAdhesion() { return dateAdhesion; }
-    public void setDateAdhesion(LocalDate dateAdhesion) { this.dateAdhesion = dateAdhesion; }
+    public LocalDate getDateAdhesion() { return dateAdhesion; }  // ← Ajouter getter
+    public void setDateAdhesion(LocalDate dateAdhesion) { this.dateAdhesion = dateAdhesion; }  // ← Ajouter setter
 
     public String getGenre() { return genre; }
     public void setGenre(String genre) { this.genre = genre; }
@@ -58,7 +44,4 @@ public class Member {
 
     public String getPoste() { return poste; }
     public void setPoste(String poste) { this.poste = poste; }
-
-    public Collectivity getCollectivity() { return collectivity; }
-    public void setCollectivity(Collectivity collectivity) { this.collectivity = collectivity; }
 }

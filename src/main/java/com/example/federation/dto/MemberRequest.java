@@ -1,15 +1,11 @@
-package com.example.federation.entity;
+package com.example.federation.dto;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
-@Entity
-@Table(name = "members")
-public class Member {
+public class MemberRequest {
 
-    @Id
     private String id;
-
     private String nom;
     private String prenom;
     private LocalDate dateNaissance;
@@ -20,12 +16,9 @@ public class Member {
     private String telephone;
     private String email;
     private String poste;
+    private List<ParrainRequest> parrains;
 
-    @ManyToOne
-    @JoinColumn(name = "collectivity_id")
-    private Collectivity collectivity;
-
-    // Getters et Setters
+    // GETTERS / SETTERS
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -59,6 +52,6 @@ public class Member {
     public String getPoste() { return poste; }
     public void setPoste(String poste) { this.poste = poste; }
 
-    public Collectivity getCollectivity() { return collectivity; }
-    public void setCollectivity(Collectivity collectivity) { this.collectivity = collectivity; }
+    public List<ParrainRequest> getParrains() { return parrains; }
+    public void setParrains(List<ParrainRequest> parrains) { this.parrains = parrains; }
 }

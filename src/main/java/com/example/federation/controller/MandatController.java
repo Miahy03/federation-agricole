@@ -1,22 +1,26 @@
 package com.example.federation.controller;
 
-import com.example.federation.dto.CollectivityResponse;
-import com.example.federation.entity.Member;
+import com.example.federation.dto.MandatRequest;
 import com.example.federation.service.MandatService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/mandats")
+@RequestMapping("/api/mandats")
 public class MandatController {
 
-    private final MandatService service;
+    private final MandatService mandatService;
 
-    public MandatController(MandatService service) {
-        this.service = service;
+    public MandatController(MandatService mandatService) {
+        this.mandatService = mandatService;
     }
 
     @PostMapping
-    public Member create(@RequestBody CollectivityResponse request) {
-        return service.create(request.getMember(), request.getSponsors());
+    public String createMandat(@RequestBody MandatRequest request) {
+        mandatService.validateSponsors(
+                request.getMemberId(),
+                request.getSponsors(),
+                request.getCollectivityId()
+        );
+        return "Mandat créé avec succès";
     }
 }

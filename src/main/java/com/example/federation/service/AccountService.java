@@ -1,5 +1,3 @@
-// commit: fix(account-service): enforce single cash account per collectivity
-
 package com.example.federation.service;
 
 import com.example.federation.entity.Account;
