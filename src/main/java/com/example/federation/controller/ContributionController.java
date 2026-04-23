@@ -1,6 +1,6 @@
 package com.example.federation.controller;
 
-import com.example.federation.dto.ContributionRequest;
+import com.example.federation.dto.MemberResponse;
 import com.example.federation.entity.Contribution;
 import com.example.federation.service.ContributionService;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ public class ContributionController {
     }
 
     @PostMapping
-    public Contribution create(@RequestBody ContributionRequest request) {
+    public Contribution create(@RequestBody MemberResponse request) {
         return service.create(
                 request.getMemberId(),
                 request.getCollectivityId(),

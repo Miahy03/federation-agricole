@@ -32,7 +32,13 @@ public class CollectivityService {
                 .orElseThrow(() -> new NotFoundException("Collectivity not found"));
     }
 
-    public List<Account> getFinancialAccounts(Long id, LocalDate at) {
-        return accountRepo.findByCollectivityId(id);
+    public List<Account> getAccounts(Long id, LocalDate at) {
+        Collectivity c = getById(id);
+
+        return accountRepo.findAll()
+                .stream()
+                .filter(a -> a.getCollectivity() != null
+                        && a.getCollectivity().getId().equals(c.getId()))
+                .toList();
     }
 }

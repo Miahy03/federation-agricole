@@ -16,17 +16,16 @@ public class Collectivity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String number;
-    private String name;
-    private String speciality;
-    private LocalDate creationDate;
 
-    @ManyToOne
-    private City city;
+    @Column(unique = true)
+    private String name;
+
+    private String speciality;
+
+    private LocalDate creationDate;
 
     @OneToMany(mappedBy = "collectivity")
     private List<Member> members;
-
-    @OneToMany(mappedBy = "collectivity")
-    private List<Account> accounts;
 }

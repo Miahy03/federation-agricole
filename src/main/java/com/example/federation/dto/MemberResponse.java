@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ContributionRequest {
-
+public class MemberResponse {
     private Long memberId;
     private Long collectivityId;
-    private double amount;
+    private Double amount;
 }

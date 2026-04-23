@@ -29,11 +29,11 @@ public class CollectivityController {
     }
 
     @GetMapping("/{id}/financialAccounts")
-    public List<Account> getFinancialAccounts(
+    public List<Account> getAccounts(
             @PathVariable Long id,
             @RequestParam(required = false) String at
     ) {
         LocalDate date = (at != null) ? LocalDate.parse(at) : null;
-        return service.getFinancialAccounts(id, date);
+        return service.getAccounts(id, date);
     }
 }

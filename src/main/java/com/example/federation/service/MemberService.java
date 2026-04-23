@@ -1,6 +1,6 @@
 package com.example.federation.service;
 
-import com.example.federation.dto.MemberRequest;
+import com.example.federation.dto.AccountResponse;
 import com.example.federation.entity.Member;
 import com.example.federation.exceptions.BadRequestException;
 import com.example.federation.repository.MemberRepository;
@@ -17,7 +17,7 @@ public class MemberService {
         this.repo = repo;
     }
 
-    public Member create(MemberRequest r) {
+    public Member create(AccountResponse r) {
 
         if (r.getFirstName() == null || r.getLastName() == null) {
             throw new BadRequestException("Name required");

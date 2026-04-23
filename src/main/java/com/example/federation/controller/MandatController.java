@@ -1,6 +1,6 @@
 package com.example.federation.controller;
 
-import com.example.federation.dto.MandatRequest;
+import com.example.federation.dto.CollectivityResponse;
 import com.example.federation.entity.Member;
 import com.example.federation.service.MandatService;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ public class MandatController {
     }
 
     @PostMapping
-    public Member create(@RequestBody MandatRequest request) {
+    public Member create(@RequestBody CollectivityResponse request) {
         return service.create(request.getMember(), request.getSponsors());
     }
 }
