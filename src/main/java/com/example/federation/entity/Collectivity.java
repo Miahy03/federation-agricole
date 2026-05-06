@@ -22,10 +22,9 @@ public class Collectivity {
     @OneToMany(mappedBy = "collectivity", cascade = CascadeType.ALL)
     private List<Member> membres = new ArrayList<>();
 
-    // ✅ Ajouter la relation ManyToOne vers Federation
-    @ManyToOne
+   /** @ManyToOne
     @JoinColumn(name = "federation_id")
-    private Federation federation;
+    private Federation federation;**/
 
     // Getters et Setters
     public String getId() { return id; }
@@ -52,7 +51,4 @@ public class Collectivity {
     public List<Member> getMembres() { return membres; }
     public void setMembres(List<Member> membres) { this.membres = membres; }
 
-    // ✅ Getter et Setter pour federation
-    public Federation getFederation() { return federation; }
-    public void setFederation(Federation federation) { this.federation = federation; }
 }

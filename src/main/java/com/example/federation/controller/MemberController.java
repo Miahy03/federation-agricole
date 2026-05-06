@@ -1,22 +1,15 @@
 package com.example.federation.controller;
 
-import com.example.federation.dto.AdhesionRequest;
-import com.example.federation.entity.Member;
-import com.example.federation.service.MemberService;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping("/members")
 public class MemberController {
 
-    private final MemberService memberService;
-
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
-
     @PostMapping
-    public Member createMember(@RequestBody AdhesionRequest request) {
-        return memberService.createMember(request);
+    public String createMember(@RequestBody String body) {
+        System.out.println("JSON reçu: " + body);
+        return "Reçu: " + body;
     }
 }
