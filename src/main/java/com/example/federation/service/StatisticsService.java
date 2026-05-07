@@ -169,18 +169,12 @@ public class StatisticsService {
         return response;
     }
 
-    // ============================================
-    // GET /collectivities/statistics
-    // ============================================
+
     public FederationStatisticsResponse getFederationStatistics(LocalDate startDate, LocalDate endDate) {
 
-        // Pour les tests, retourner des données fictives
         return getMockFederationStatistics(startDate, endDate);
     }
 
-    // ============================================
-    // METHODES PRIVEES
-    // ============================================
     private double calculatePotentialUnpaid(Member member, LocalDate startDate, LocalDate endDate) {
         try {
             List<Payment> payments = paymentRepository.findByMemberAndDateBetween(member, startDate, endDate);
