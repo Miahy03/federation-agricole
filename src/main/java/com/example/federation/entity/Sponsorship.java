@@ -26,6 +26,11 @@ public class Sponsorship {
     private String relation;
     private LocalDateTime createdAt;
 
+    public Sponsorship() {
+        this.createdAt = LocalDateTime.now();
+        this.relation = "AMI";
+    }
+
     // Getters et Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -40,7 +45,9 @@ public class Sponsorship {
     public void setCollectivity(Collectivity collectivity) { this.collectivity = collectivity; }
 
     public String getRelation() { return relation; }
-    public void setRelation(String relation) { this.relation = relation; }
+    public void setRelation(String relation) {
+        this.relation = (relation == null || relation.isEmpty()) ? "AMI" : relation;
+    }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

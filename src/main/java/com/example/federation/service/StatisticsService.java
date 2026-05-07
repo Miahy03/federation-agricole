@@ -39,7 +39,6 @@ public class StatisticsService {
 
         List<CollectivityStatisticsResponse.MemberStatisticsDto> memberStats = new ArrayList<>();
 
-        // Membre fictif 1
         CollectivityStatisticsResponse.MemberStatisticsDto dto1 = new CollectivityStatisticsResponse.MemberStatisticsDto();
         dto1.setMemberId("mock-member-1");
         dto1.setMemberName("Jean Test");
@@ -47,7 +46,6 @@ public class StatisticsService {
         dto1.setPotentialUnpaidAmount(0);
         memberStats.add(dto1);
 
-        // Membre fictif 2
         CollectivityStatisticsResponse.MemberStatisticsDto dto2 = new CollectivityStatisticsResponse.MemberStatisticsDto();
         dto2.setMemberId("mock-member-2");
         dto2.setMemberName("Marie Test");
@@ -103,6 +101,9 @@ public class StatisticsService {
         return response;
     }
 
+    // ============================================
+    // GET /collectivites/{id}/statistics
+    // ============================================
     public CollectivityStatisticsResponse getCollectivityStatistics(String collectivityId,
                                                                     LocalDate startDate,
                                                                     LocalDate endDate) {
@@ -168,80 +169,18 @@ public class StatisticsService {
         return response;
     }
 
+    // ============================================
+    // GET /collectivities/statistics
+    // ============================================
     public FederationStatisticsResponse getFederationStatistics(LocalDate startDate, LocalDate endDate) {
 
-        // AJOUT : Pour les tests, retourner des données fictives
-        // Tu peux commenter cette ligne pour utiliser la vraie base
+        // Pour les tests, retourner des données fictives
         return getMockFederationStatistics(startDate, endDate);
-
-        // COMMENTE POUR LES TESTS - Décommente pour utiliser la vraie base
-        /*
-        List<Collectivity> allCollectivities = collectivityRepository.findAll();
-        List<FederationStatisticsResponse.CollectivityStatsDto> collectivityStats = new ArrayList<>();
-        int totalNewMembers = 0;
-        int totalActiveMembers = 0;
-
-        for (Collectivity collectivity : allCollectivities) {
-            List<Member> members = collectivity.getMembres();
-            if (members == null) members = new ArrayList<>();
-
-            int newMembers = 0;
-            for (Member member : members) {
-                if (member != null && member.getDateAdhesion() != null &&
-                        !member.getDateAdhesion().isBefore(startDate) &&
-                        !member.getDateAdhesion().isAfter(endDate)) {
-                    newMembers++;
-                }
-            }
-            totalNewMembers += newMembers;
-            totalActiveMembers += members.size();
-
-            double percentageUpToDate = calculatePercentageUpToDate(collectivity, startDate, endDate);
-
-            FederationStatisticsResponse.CollectivityStatsDto dto = new FederationStatisticsResponse.CollectivityStatsDto();
-            dto.setCollectivityId(collectivity.getId());
-            String name = collectivity.getNom();
-            if (name == null || name.isEmpty()) {
-                name = collectivity.getNumero();
-            }
-            if (name == null || name.isEmpty()) {
-                name = "Collectivité " + collectivity.getId();
-            }
-            dto.setCollectivityName(name);
-            dto.setPercentageMembersUpToDate(percentageUpToDate);
-            dto.setNewMembersCount(newMembers);
-            dto.setTotalActiveMembers(members.size());
-
-            collectivityStats.add(dto);
-        }
-
-        double globalAverage = 0;
-        for (FederationStatisticsResponse.CollectivityStatsDto dto : collectivityStats) {
-            globalAverage += dto.getPercentageMembersUpToDate();
-        }
-        if (collectivityStats.size() > 0) {
-            globalAverage = globalAverage / collectivityStats.size();
-        }
-
-        FederationStatisticsResponse response = new FederationStatisticsResponse();
-
-        FederationStatisticsResponse.PeriodDto period = new FederationStatisticsResponse.PeriodDto();
-        period.setStartDate(startDate.toString());
-        period.setEndDate(endDate.toString());
-        response.setPeriod(period);
-
-        response.setCollectivitiesStats(collectivityStats);
-
-        FederationStatisticsResponse.SummaryDto summary = new FederationStatisticsResponse.SummaryDto();
-        summary.setGlobalAveragePercentage(Math.round(globalAverage * 100.0) / 100.0);
-        summary.setTotalNewMembers(totalNewMembers);
-        summary.setTotalActiveMembers(totalActiveMembers);
-        response.setSummary(summary);
-
-        return response;
-        */
     }
 
+    // ============================================
+    // METHODES PRIVEES
+    // ============================================
     private double calculatePotentialUnpaid(Member member, LocalDate startDate, LocalDate endDate) {
         try {
             List<Payment> payments = paymentRepository.findByMemberAndDateBetween(member, startDate, endDate);

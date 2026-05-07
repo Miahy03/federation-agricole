@@ -6,6 +6,7 @@ import java.util.List;
 public class MemberRequest {
 
     private String id;
+    private String collectivityId;
     private String nom;
     private String prenom;
     private LocalDate dateNaissance;
@@ -21,6 +22,9 @@ public class MemberRequest {
     // GETTERS / SETTERS
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
+
+    public String getCollectivityId() { return collectivityId; }  // ← AJOUTER
+    public void setCollectivityId(String collectivityId) { this.collectivityId = collectivityId; }
 
     public String getNom() { return nom; }
     public void setNom(String nom) { this.nom = nom; }
